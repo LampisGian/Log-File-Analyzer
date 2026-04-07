@@ -1,0 +1,18 @@
+{
+    "counts": {
+        "ERROR": 112,
+        "INFO": 92,
+        "WARNING": 96
+    },
+    "total_entries": 300,
+    "malformed_lines": 22,
+    "first_log": "2026-03-24 14:00:00 ERROR Network connection lost",
+    "last_log": "2026-03-24 19:14:56 ERROR Authentication failed",
+    "common_errors": {
+        "Authentication failed": 16,
+        "Network connection lost": 14,
+        "Database query failed": 12,
+        "Access denied for admin panel": 12,
+        "Failed to save user settings": 12
+    }
+}

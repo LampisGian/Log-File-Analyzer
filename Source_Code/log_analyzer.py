@@ -3,8 +3,9 @@ from collections import Counter
 
 
 class LogAnalyzer:
-    def __init__(self, log_entries):
+    def __init__(self, log_entries, malformed_count=0):
         self.log_entries = log_entries
+        self.malformed_count = malformed_count
         self.counts = Counter()
 
     def analyze(self):
@@ -60,11 +61,40 @@ class LogAnalyzer:
 
         return filtered_entries
 
-    def save_to_json(self, output_file):
-        data = {
+    def generate_report_data(self):
+        if not self.counts:
+            self.analyze()
+
+        if not self.log_entries:
+            return {
+                "counts": {},
+                "total_entries": 0,
+                "malformed_lines": self.malformed_count,
+                "first_log": None,
+                "last_log": None,
+                "common_errors": {}
+            }
+
+        sorted_entries = sorted(self.log_entries, key=lambda entry: entry.timestamp)
+
+        error_messages = [
+            entry.message for entry in self.log_entries
+            if entry.level == "ERROR"
+        ]
+
+        common_errors = dict(Counter(error_messages).most_common(5))
+
+        return {
             "counts": dict(self.counts),
-            "total_entries": len(self.log_entries)
+            "total_entries": len(self.log_entries),
+            "malformed_lines": self.malformed_count,
+            "first_log": str(sorted_entries[0]),
+            "last_log": str(sorted_entries[-1]),
+            "common_errors": common_errors
         }
+
+    def save_report_to_json(self, output_file):
+        data = self.generate_report_data()
 
         with open(output_file, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4)
