@@ -1,18 +1,22 @@
 from log_parser import LogParser
-
+from Source_Code.log_analyzer import LogAnalyzer
 
 def main():
     parser = LogParser("Samples/sample.log")
     entries = parser.parse()
 
-    print("Valid log entries:")
-    for entry in entries:
-        print(entry)
+    print(f"Total valid entries: {len(entries)}")
+    print(f"Malformed lines: {len(parser.malformed_lines)}\n")
 
-    print("\nMalformed lines:")
-    for line in parser.malformed_lines:
-        print(line)
+    analyzer = LogAnalyzer(entries)
+    counts = analyzer.analyze()
 
+    print("Log counts by type:")
+    for level, count in counts.items():
+        print(f"{level}: {count}")
+
+    analyzer.save_to_json("Samples/log_summary.json")
+    print("\nSummary saved to Samples/log_summary.json")
 
 if __name__ == "__main__":
     main()
