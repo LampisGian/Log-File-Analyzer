@@ -1,0 +1,322 @@
+2026-03-24 14:00:00 ERROR Network connection lost
+2026-03-24 14:01:01 INFO Connection established
+2026-03-24 14:02:02 ERROR Unexpected server error occurred
+2026-03-24 14:03:16 ERROR Database query failed
+2026-03-24 14:05:04 ERROR Could not open configuration file
+2026-03-24 14:05:45 WARNING Memory usage is high
+2026-03-24 14:07:24 ERROR Timeout while contacting server
+2026-03-24 14:07:53 ERROR Failed to connect to database
+2026-03-24 14:09:33 WARNING CPU temperature is above normal
+2026-03-24 14:09:43 INFO New session created
+2026-03-24 14:11:42 ERROR Unexpected server error occurred
+2026-03-24 14:13:03 WARNING Multiple failed login attempts
+2026-03-24 14:13:55 INFO Configuration loaded successfully
+2026-03-24 14:14:17 ERROR Failed to connect to database
+2026-03-24 14:16:17 WARNING Large response time recorded
+2026-03-24 14:16:57 ERROR File not found
+2026-03-24 14:17:39 WARNING Memory usage is high
+2026-03-24 14:18:36 ERROR Could not open configuration file
+2026-03-24 14:20:26 WARNING Memory usage is high
+2026-03-24 14:21:52 ERROR Authentication failed
+2026-03-24 14:23:33 WARNING Deprecated API call detected
+2026-03-24 14:24:10 ERROR Access denied for admin panel
+2026-03-24 14:25:45 ERROR Failed to save user settings
+2026-03-24 14:27:41 WARNING Disk usage is high
+2026-03-24 14:29:07 INFO Cache cleared
+2026-03-24 14:30:35 WARNING CPU temperature is above normal
+Malformed log line example
+2026/03/24 ERROR Wrong date format
+2026-03-24 14:30:59 ERROR Timeout while contacting server
+2026-03-24 14:31:30 ERROR Timeout while contacting server
+2026-03-24 14:31:44 WARNING Low available storage space
+2026-03-24 14:33:25 ERROR Access denied for admin panel
+2026-03-24 14:35:03 WARNING Unusual login attempt detected
+2026-03-24 14:35:43 WARNING Disk usage is high
+2026-03-24 14:37:30 WARNING API response is slower than expected
+2026-03-24 14:38:04 WARNING Memory usage is high
+2026-03-24 14:39:40 ERROR File not found
+2026-03-24 14:41:29 WARNING Large response time recorded
+2026-03-24 14:41:39 WARNING Memory usage is high
+2026-03-24 14:43:03 INFO Backup started
+2026-03-24 14:44:27 INFO Configuration loaded successfully
+2026-03-24 14:45:00 INFO Backup completed
+2026-03-24 14:46:34 WARNING API response is slower than expected
+2026-03-24 14:48:01 WARNING Unusual login attempt detected
+2026-03-24 14:48:48 ERROR File not found
+2026-03-24 14:50:45 WARNING Unusual login attempt detected
+2026-03-24 14:52:22 INFO Backup started
+2026-03-24 14:53:39 ERROR File not found
+2026-03-24 14:55:18 ERROR Authentication failed
+2026-03-24 14:57:04 WARNING Temporary network instability detected
+2026-03-24 14:58:01 INFO User logged in
+2026-03-24 14:58:59 INFO Backup started
+2026-03-24 14:59:30 ERROR Timeout while contacting server
+Malformed log line example
+2026/03/24 ERROR Wrong date format
+2026-03-24 15:00:01 INFO Scheduled task completed
+2026-03-24 15:00:52 INFO Connection established
+2026-03-24 15:01:40 WARNING Unusual login attempt detected
+2026-03-24 15:02:00 ERROR Authentication failed
+2026-03-24 15:03:13 ERROR Unexpected server error occurred
+2026-03-24 15:04:46 ERROR File not found
+2026-03-24 15:06:16 ERROR Could not open configuration file
+2026-03-24 15:07:09 WARNING Unusual login attempt detected
+2026-03-24 15:07:45 ERROR Network connection lost
+2026-03-24 15:08:31 WARNING CPU temperature is above normal
+2026-03-24 15:10:10 WARNING Multiple failed login attempts
+2026-03-24 15:11:07 INFO User logged in
+2026-03-24 15:12:09 WARNING Multiple failed login attempts
+2026-03-24 15:12:50 WARNING Large response time recorded
+2026-03-24 15:14:09 WARNING Low available storage space
+2026-03-24 15:15:59 ERROR Could not open configuration file
+2026-03-24 15:16:34 WARNING Deprecated API call detected
+2026-03-24 15:18:16 ERROR Database query failed
+2026-03-24 15:20:09 ERROR Could not open configuration file
+2026-03-24 15:22:09 WARNING API response is slower than expected
+2026-03-24 15:23:35 INFO Application restarted
+2026-03-24 15:23:52 INFO Cache cleared
+2026-03-24 15:24:14 ERROR Failed to save user settings
+2026-03-24 15:25:11 ERROR Authentication failed
+2026-03-24 15:27:05 WARNING Deprecated API call detected
+Malformed log line example
+2026/03/24 ERROR Wrong date format
+2026-03-24 15:28:07 ERROR File not found
+2026-03-24 15:29:55 WARNING Unusual login attempt detected
+2026-03-24 15:30:09 ERROR Unexpected server error occurred
+2026-03-24 15:30:52 WARNING Disk usage is high
+2026-03-24 15:31:42 WARNING API response is slower than expected
+2026-03-24 15:32:39 WARNING Large response time recorded
+2026-03-24 15:33:47 ERROR Database query failed
+2026-03-24 15:34:55 INFO New session created
+2026-03-24 15:36:53 WARNING Memory usage is high
+2026-03-24 15:37:50 WARNING Deprecated API call detected
+2026-03-24 15:39:34 WARNING Temporary network instability detected
+2026-03-24 15:40:05 ERROR Unexpected server error occurred
+2026-03-24 15:41:36 INFO New session created
+2026-03-24 15:41:51 ERROR Failed to save user settings
+2026-03-24 15:42:08 INFO Application started
+2026-03-24 15:43:46 ERROR Access denied for admin panel
+2026-03-24 15:45:41 ERROR Could not open configuration file
+2026-03-24 15:47:17 ERROR Failed to save user settings
+2026-03-24 15:47:51 INFO Backup completed
+2026-03-24 15:48:43 ERROR Failed to save user settings
+2026-03-24 15:49:51 INFO Backup started
+2026-03-24 15:51:24 ERROR Authentication failed
+2026-03-24 15:53:12 INFO Application restarted
+2026-03-24 15:55:02 ERROR Access denied for admin panel
+2026-03-24 15:55:08 INFO Backup completed
+Malformed log line example
+2026/03/24 ERROR Wrong date format
+2026-03-24 15:56:26 INFO Application started
+2026-03-24 15:57:17 ERROR Database query failed
+2026-03-24 15:58:05 WARNING Unusual login attempt detected
+2026-03-24 15:59:21 INFO Cache cleared
+2026-03-24 16:00:05 ERROR Access denied for admin panel
+2026-03-24 16:00:25 ERROR File not found
+2026-03-24 16:01:48 ERROR Could not open configuration file
+2026-03-24 16:02:14 WARNING Memory usage is high
+2026-03-24 16:04:00 INFO New session created
+2026-03-24 16:05:30 WARNING Unusual login attempt detected
+2026-03-24 16:07:04 INFO Scheduled task completed
+2026-03-24 16:07:48 INFO Scheduled task completed
+2026-03-24 16:09:02 INFO Service started successfully
+2026-03-24 16:09:08 INFO Backup completed
+2026-03-24 16:10:42 INFO New session created
+2026-03-24 16:12:06 INFO Cache cleared
+2026-03-24 16:12:31 ERROR Network connection lost
+2026-03-24 16:14:12 ERROR Access denied for admin panel
+2026-03-24 16:15:55 WARNING Multiple failed login attempts
+2026-03-24 16:17:18 WARNING Unusual login attempt detected
+2026-03-24 16:17:36 INFO User logged out
+2026-03-24 16:18:01 ERROR Network connection lost
+2026-03-24 16:19:34 ERROR Timeout while contacting server
+2026-03-24 16:19:51 INFO Configuration loaded successfully
+2026-03-24 16:20:16 INFO Backup started
+Malformed log line example
+2026/03/24 ERROR Wrong date format
+2026-03-24 16:21:13 WARNING Low available storage space
+2026-03-24 16:22:51 ERROR File not found
+2026-03-24 16:24:20 ERROR Authentication failed
+2026-03-24 16:25:48 INFO Backup started
+2026-03-24 16:26:31 ERROR Database query failed
+2026-03-24 16:27:56 ERROR Failed to save user settings
+2026-03-24 16:29:19 WARNING Large response time recorded
+2026-03-24 16:30:40 ERROR Authentication failed
+2026-03-24 16:30:53 INFO File uploaded successfully
+2026-03-24 16:31:09 ERROR Unexpected server error occurred
+2026-03-24 16:32:14 ERROR Database query failed
+2026-03-24 16:33:09 INFO Scheduled task completed
+2026-03-24 16:34:16 ERROR File not found
+2026-03-24 16:35:03 WARNING Multiple failed login attempts
+2026-03-24 16:35:45 ERROR Database query failed
+2026-03-24 16:36:43 ERROR Access denied for admin panel
+2026-03-24 16:38:37 WARNING API response is slower than expected
+2026-03-24 16:39:14 INFO User logged in
+2026-03-24 16:40:19 ERROR Database query failed
+2026-03-24 16:40:38 ERROR Failed to save user settings
+2026-03-24 16:42:27 ERROR Network connection lost
+2026-03-24 16:44:24 ERROR Timeout while contacting server
+2026-03-24 16:44:31 INFO Cache cleared
+2026-03-24 16:44:56 INFO Application restarted
+2026-03-24 16:46:42 INFO Application restarted
+Malformed log line example
+2026/03/24 ERROR Wrong date format
+2026-03-24 16:47:30 INFO Backup started
+2026-03-24 16:48:44 WARNING Low available storage space
+2026-03-24 16:49:18 INFO New session created
+2026-03-24 16:49:47 ERROR Database query failed
+2026-03-24 16:51:19 INFO Scheduled task started
+2026-03-24 16:53:18 INFO Service started successfully
+2026-03-24 16:54:46 INFO Cache cleared
+2026-03-24 16:56:23 WARNING Low available storage space
+2026-03-24 16:57:59 WARNING Low available storage space
+2026-03-24 16:58:40 INFO User logged out
+2026-03-24 17:00:14 ERROR Authentication failed
+2026-03-24 17:00:59 ERROR Failed to save user settings
+2026-03-24 17:02:30 ERROR Access denied for admin panel
+2026-03-24 17:03:42 INFO Scheduled task completed
+2026-03-24 17:05:29 ERROR Authentication failed
+2026-03-24 17:07:22 INFO Connection established
+2026-03-24 17:08:33 INFO Configuration loaded successfully
+2026-03-24 17:09:10 INFO New session created
+2026-03-24 17:10:50 ERROR Network connection lost
+2026-03-24 17:10:57 INFO Service started successfully
+2026-03-24 17:11:53 WARNING Memory usage is high
+2026-03-24 17:13:08 WARNING Unusual login attempt detected
+2026-03-24 17:13:52 ERROR Failed to save user settings
+2026-03-24 17:14:46 WARNING Disk usage is high
+2026-03-24 17:16:09 INFO Connection established
+Malformed log line example
+2026/03/24 ERROR Wrong date format
+2026-03-24 17:18:04 WARNING Low available storage space
+2026-03-24 17:19:34 ERROR Network connection lost
+2026-03-24 17:20:47 WARNING Unusual login attempt detected
+2026-03-24 17:21:32 INFO Settings updated successfully
+2026-03-24 17:23:07 WARNING Unusual login attempt detected
+2026-03-24 17:23:28 ERROR Network connection lost
+2026-03-24 17:25:07 WARNING Multiple failed login attempts
+2026-03-24 17:25:55 INFO Application restarted
+2026-03-24 17:26:09 WARNING Temporary network instability detected
+2026-03-24 17:26:48 INFO Service started successfully
+2026-03-24 17:27:25 ERROR Failed to save user settings
+2026-03-24 17:27:40 ERROR Database query failed
+2026-03-24 17:28:22 ERROR Authentication failed
+2026-03-24 17:28:51 ERROR Timeout while contacting server
+2026-03-24 17:30:13 INFO Connection established
+2026-03-24 17:30:31 WARNING Large response time recorded
+2026-03-24 17:32:15 ERROR Failed to connect to database
+2026-03-24 17:32:38 WARNING Temporary network instability detected
+2026-03-24 17:32:44 INFO User logged in
+2026-03-24 17:32:51 WARNING Memory usage is high
+2026-03-24 17:34:24 INFO Connection established
+2026-03-24 17:34:41 INFO File uploaded successfully
+2026-03-24 17:35:01 WARNING Disk usage is high
+2026-03-24 17:35:09 ERROR Timeout while contacting server
+2026-03-24 17:36:58 INFO Backup completed
+Malformed log line example
+2026/03/24 ERROR Wrong date format
+2026-03-24 17:38:47 INFO User logged out
+2026-03-24 17:39:14 INFO User logged out
+2026-03-24 17:40:59 WARNING API response is slower than expected
+2026-03-24 17:41:09 ERROR Unexpected server error occurred
+2026-03-24 17:41:38 ERROR Network connection lost
+2026-03-24 17:41:54 WARNING Unusual login attempt detected
+2026-03-24 17:42:42 WARNING CPU temperature is above normal
+2026-03-24 17:43:21 ERROR Failed to connect to database
+2026-03-24 17:43:34 ERROR Network connection lost
+2026-03-24 17:44:45 WARNING Disk usage is high
+2026-03-24 17:45:26 WARNING CPU temperature is above normal
+2026-03-24 17:47:15 WARNING CPU temperature is above normal
+2026-03-24 17:48:22 WARNING Unusual login attempt detected
+2026-03-24 17:49:07 ERROR Access denied for admin panel
+2026-03-24 17:49:25 ERROR Network connection lost
+2026-03-24 17:51:16 WARNING Disk usage is high
+2026-03-24 17:52:43 WARNING Large response time recorded
+2026-03-24 17:53:57 INFO User logged out
+2026-03-24 17:54:44 INFO Configuration loaded successfully
+2026-03-24 17:55:06 ERROR Access denied for admin panel
+2026-03-24 17:56:48 INFO Scheduled task completed
+2026-03-24 17:57:37 WARNING Multiple failed login attempts
+2026-03-24 17:57:52 WARNING Deprecated API call detected
+2026-03-24 17:58:01 WARNING Disk usage is high
+2026-03-24 17:58:22 INFO User logged in
+Malformed log line example
+2026/03/24 ERROR Wrong date format
+2026-03-24 17:59:59 WARNING Disk usage is high
+2026-03-24 18:00:46 ERROR Access denied for admin panel
+2026-03-24 18:02:06 ERROR Network connection lost
+2026-03-24 18:03:14 INFO Application started
+2026-03-24 18:03:45 WARNING Deprecated API call detected
+2026-03-24 18:05:05 ERROR Timeout while contacting server
+2026-03-24 18:06:01 WARNING Large response time recorded
+2026-03-24 18:06:55 INFO File uploaded successfully
+2026-03-24 18:08:46 WARNING Memory usage is high
+2026-03-24 18:10:20 INFO Backup completed
+2026-03-24 18:11:12 WARNING Memory usage is high
+2026-03-24 18:12:59 ERROR Could not open configuration file
+2026-03-24 18:14:16 ERROR Authentication failed
+2026-03-24 18:15:00 WARNING CPU temperature is above normal
+2026-03-24 18:16:38 ERROR Timeout while contacting server
+2026-03-24 18:17:23 INFO User logged in
+2026-03-24 18:17:28 WARNING API response is slower than expected
+2026-03-24 18:17:37 WARNING Large response time recorded
+2026-03-24 18:19:37 WARNING Deprecated API call detected
+2026-03-24 18:21:37 WARNING Unusual login attempt detected
+2026-03-24 18:23:24 WARNING Multiple failed login attempts
+2026-03-24 18:23:49 INFO File uploaded successfully
+2026-03-24 18:24:47 INFO Scheduled task started
+2026-03-24 18:25:44 WARNING API response is slower than expected
+2026-03-24 18:26:03 ERROR Could not open configuration file
+Malformed log line example
+2026/03/24 ERROR Wrong date format
+2026-03-24 18:26:09 INFO Application restarted
+2026-03-24 18:26:41 ERROR Database query failed
+2026-03-24 18:27:54 INFO New session created
+2026-03-24 18:28:41 INFO Cache cleared
+2026-03-24 18:30:20 WARNING API response is slower than expected
+2026-03-24 18:30:31 WARNING Large response time recorded
+2026-03-24 18:31:42 INFO File uploaded successfully
+2026-03-24 18:33:34 ERROR Could not open configuration file
+2026-03-24 18:34:23 INFO User logged in
+2026-03-24 18:36:15 ERROR Failed to connect to database
+2026-03-24 18:36:49 INFO Cache cleared
+2026-03-24 18:38:18 ERROR Failed to save user settings
+2026-03-24 18:40:06 WARNING API response is slower than expected
+2026-03-24 18:41:13 WARNING Disk usage is high
+2026-03-24 18:42:09 INFO Cache cleared
+2026-03-24 18:42:19 INFO New session created
+2026-03-24 18:43:46 ERROR Failed to connect to database
+2026-03-24 18:45:36 ERROR Database query failed
+2026-03-24 18:47:34 ERROR Network connection lost
+2026-03-24 18:47:47 WARNING Multiple failed login attempts
+2026-03-24 18:48:06 WARNING Temporary network instability detected
+2026-03-24 18:49:29 INFO Backup completed
+2026-03-24 18:50:24 INFO Application started
+2026-03-24 18:51:24 ERROR Authentication failed
+2026-03-24 18:52:52 INFO Service started successfully
+Malformed log line example
+2026/03/24 ERROR Wrong date format
+2026-03-24 18:54:34 ERROR Failed to connect to database
+2026-03-24 18:55:49 INFO User logged in
+2026-03-24 18:56:01 ERROR Could not open configuration file
+2026-03-24 18:57:06 INFO Configuration loaded successfully
+2026-03-24 18:57:51 INFO Backup started
+2026-03-24 18:58:34 INFO Connection established
+2026-03-24 19:00:11 ERROR Network connection lost
+2026-03-24 19:00:51 INFO Connection established
+2026-03-24 19:01:40 WARNING Multiple failed login attempts
+2026-03-24 19:02:07 WARNING Low available storage space
+2026-03-24 19:02:30 ERROR Authentication failed
+2026-03-24 19:02:49 WARNING API response is slower than expected
+2026-03-24 19:04:32 INFO Backup started
+2026-03-24 19:05:46 ERROR Failed to save user settings
+2026-03-24 19:06:56 INFO Backup started
+2026-03-24 19:08:13 ERROR Timeout while contacting server
+2026-03-24 19:08:19 ERROR Authentication failed
+2026-03-24 19:09:37 ERROR File not found
+2026-03-24 19:11:35 WARNING Memory usage is high
+2026-03-24 19:11:41 WARNING Large response time recorded
+2026-03-24 19:12:25 ERROR Authentication failed
+2026-03-24 19:14:00 INFO Backup completed
+2026-03-24 19:14:22 ERROR Access denied for admin panel
+2026-03-24 19:14:56 ERROR Authentication failed
