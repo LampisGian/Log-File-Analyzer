@@ -51,6 +51,11 @@ def main():
     analyzer.save_report_to_json("Samples/log_report.json")
     print("\nReport saved to Samples/log_report.json")
 
+    analyzer.visualize_log_frequency()
+    print("\nBar chart saved to Samples/log_frequency.png")
+
+    analyzer.visualize_timeline()
+    print("Timeline chart saved to Samples/log_timeline.png")
 
 if __name__ == "__main__":
     main()

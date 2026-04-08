@@ -1,5 +1,7 @@
 import json
 from collections import Counter
+import matplotlib.pyplot as plt
+from collections import Counter
 
 
 class LogAnalyzer:
@@ -98,3 +100,78 @@ class LogAnalyzer:
 
         with open(output_file, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4)
+
+    def visualize_log_frequency(self, output_file="Samples/log_frequency.png"):
+        if not self.counts:
+            self.analyze()
+
+        level_order = ["INFO", "WARNING", "ERROR"]
+        levels = [level for level in level_order if level in self.counts]
+        values = [self.counts[level] for level in levels]
+
+        colors = {
+            "INFO": "skyblue",
+            "WARNING": "orange",
+            "ERROR": "red"
+        }
+
+        bar_colors = [colors[level] for level in levels]
+
+        plt.figure(figsize=(9, 5))
+        bars = plt.bar(levels, values, color=bar_colors, width=0.45)
+
+        plt.title("Log Frequency by Type", fontsize=16)
+        plt.xlabel("Log Level", fontsize=12)
+        plt.ylabel("Number of Entries", fontsize=12)
+        plt.grid(axis="y", linestyle="--", alpha=0.4)
+
+        for bar in bars:
+            height = bar.get_height()
+            plt.text(
+                bar.get_x() + bar.get_width() / 2,
+                height + 1,
+                str(height),
+                ha="center",
+                va="bottom",
+                fontsize=11
+            )
+
+        plt.tight_layout()
+        plt.savefig(output_file)
+        plt.show()
+
+    def visualize_timeline(self, output_file="Samples/log_timeline.png"):
+        if not self.log_entries:
+            print("No log entries available for timeline.")
+            return
+
+        timeline_counts = Counter(entry.timestamp[:13] for entry in self.log_entries)
+
+        time_points = sorted(timeline_counts.keys())
+        values = [timeline_counts[time] for time in time_points]
+
+        plt.figure(figsize=(11, 5))
+        plt.plot(
+            time_points,
+            values,
+            marker="o",
+            linestyle="-",
+            linewidth=2,
+            markersize=7,
+            color="mediumpurple"
+        )
+
+        plt.fill_between(time_points, values, alpha=0.15, color="mediumpurple")
+
+        plt.title("Log Timeline Frequency", fontsize=18, fontweight="bold")
+        plt.xlabel("Date and Hour", fontsize=12)
+        plt.ylabel("Number of Entries", fontsize=12)
+
+        plt.xticks(rotation=30, ha="right", fontsize=10)
+        plt.yticks(fontsize=10)
+
+        plt.grid(True, linestyle="--", alpha=0.3)
+        plt.tight_layout()
+
+        plt.savefig(output_file, dpi=300)
+        plt.show()
