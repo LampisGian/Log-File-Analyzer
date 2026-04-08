@@ -2,6 +2,9 @@ import json
 from collections import Counter
 import matplotlib.pyplot as plt
 
+#This module analyzes parsed log entries to provide insights such as counts by log level, filtering capabilities, and report generation. 
+#It includes methods for visualizing log frequency and timelines using Matplotlib, and can save analysis results to JSON files. 
+#The LogAnalyzer class is designed to work with the LogEntry objects created by
 
 class LogAnalyzer:
     def __init__(self, log_entries, malformed_count=0):

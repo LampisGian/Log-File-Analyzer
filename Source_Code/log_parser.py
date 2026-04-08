@@ -2,6 +2,12 @@ import re
 from datetime import datetime
 from log_entry import LogEntry
 
+#This module is responsible for parsing log files of various formats and normalizing the log entries into a consistent structure. 
+#The LogParser class uses regular expressions to identify and extract relevant information from each log line, such as the timestamp, log level, and message. 
+#It supports multiple common log formats, including standard, Apache, health check, syslog, and Windows event logs. 
+#The parser also includes a normalization step to standardize log levels and handle cases where the log format may be inconsistent or partially malformed. 
+#Parsed log entries are stored as LogEntry objects, which can then be analyzed and visualized by the LogAnalyzer class. 
+#The parser is designed to be robust, providing feedback on malformed lines and unsupported formats, while still extracting as much useful information as possible from the log file.
 
 class LogParser:
     def __init__(self, file_path):

@@ -2,13 +2,17 @@ import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 from tkinter.scrolledtext import ScrolledText
 from pathlib import Path
-
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from tkinterdnd2 import DND_FILES, TkinterDnD
-
 from log_parser import LogParser
 from log_analyzer import LogAnalyzer
+
+#This module implements the graphical user interface (GUI) for the Log File Analyzer application using Tkinter. 
+#It provides a user-friendly interface for loading log files, applying filters, and visualizing analysis results through charts. 
+#The GUI supports drag-and-drop file loading, keyword search, date filtering, and displays results in a structured format. 
+#It also handles various edge cases such as unsupported file formats and parsing errors, providing clear feedback to the user 
+#through status badges and message boxes.
 
 
 def get_app_data_dir():

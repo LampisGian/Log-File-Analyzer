@@ -1,6 +1,10 @@
 from datetime import datetime, timedelta
 import random
 
+#This module generates a sample log file with a mix of INFO, WARNING, and ERROR messages, along with some malformed lines for testing the log parser's robustness. 
+# The timestamps are generated sequentially with random intervals to simulate real-world logging scenarios.
+#It could be runed independently to create a sample log file in the "Samples" directory, which can then be analyzed using the main log 
+# analyzer program.
 
 class SampleLogGenerator:
     def __init__(self, output_file, num_lines=200):

@@ -3,6 +3,7 @@ import argparse
 from log_parser import LogParser
 from log_analyzer import LogAnalyzer
 
+#This is the main entry point for the Log File Analyzer application. It handles command-line arguments for specifying the log file, search keywords, and date filters.      
 
 def main():
     arg_parser = argparse.ArgumentParser(description="Log File Analyzer")
