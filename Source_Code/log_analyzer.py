@@ -1,7 +1,6 @@
 import json
 from collections import Counter
 import matplotlib.pyplot as plt
-from collections import Counter
 
 
 class LogAnalyzer:
@@ -137,7 +136,7 @@ class LogAnalyzer:
             )
 
         plt.tight_layout()
-        plt.savefig(output_file)
+        plt.savefig(output_file, dpi=300)
         plt.show()
 
     def visualize_timeline(self, output_file="Samples/log_timeline.png"):
@@ -148,30 +147,37 @@ class LogAnalyzer:
         timeline_counts = Counter(entry.timestamp[:13] for entry in self.log_entries)
 
         time_points = sorted(timeline_counts.keys())
-        values = [timeline_counts[time] for time in time_points]
+        values = [timeline_counts[t] for t in time_points]
+        x_positions = list(range(len(time_points)))
 
-        plt.figure(figsize=(11, 5))
+        plt.figure(figsize=(12, 5))
         plt.plot(
-            time_points,
+            x_positions,
             values,
             marker="o",
             linestyle="-",
             linewidth=2,
-            markersize=7,
+            markersize=5,
             color="mediumpurple"
         )
 
-        plt.fill_between(time_points, values, alpha=0.15, color="mediumpurple")
+        plt.fill_between(x_positions, values, alpha=0.15, color="mediumpurple")
 
         plt.title("Log Timeline Frequency", fontsize=18, fontweight="bold")
         plt.xlabel("Date and Hour", fontsize=12)
         plt.ylabel("Number of Entries", fontsize=12)
 
-        plt.xticks(rotation=30, ha="right", fontsize=10)
-        plt.yticks(fontsize=10)
+        step = max(1, len(time_points) // 8)
+        plt.xticks(
+            x_positions[::step],
+            [time_points[i] for i in range(0, len(time_points), step)],
+            rotation=30,
+            ha="right",
+            fontsize=10
+        )
 
+        plt.yticks(fontsize=10)
         plt.grid(True, linestyle="--", alpha=0.3)
         plt.tight_layout()
-
         plt.savefig(output_file, dpi=300)
         plt.show()
