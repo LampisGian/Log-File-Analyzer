@@ -1,7 +1,7 @@
-import os
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 from tkinter.scrolledtext import ScrolledText
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -9,6 +9,12 @@ from tkinterdnd2 import DND_FILES, TkinterDnD
 
 from log_parser import LogParser
 from log_analyzer import LogAnalyzer
+
+
+def get_app_data_dir():
+    app_dir = Path.home() / "Library" / "Application Support" / "Log File Analyzer"
+    app_dir.mkdir(parents=True, exist_ok=True)
+    return app_dir
 
 
 class LogAnalyzerGUI:
@@ -21,8 +27,7 @@ class LogAnalyzerGUI:
         self.file_path = None
         self.frequency_canvas_widget = None
         self.timeline_canvas_widget = None
-
-        os.makedirs("Samples", exist_ok=True)
+        self.app_data_dir = get_app_data_dir()
 
         self.configure_styles()
         self.build_ui()
@@ -503,9 +508,10 @@ class LogAnalyzerGUI:
             else:
                 self.write_line("    No error logs found.")
 
-            analyzer.save_report_to_json("Samples/log_report.json")
+            report_path = self.app_data_dir / "log_report.json"
+            analyzer.save_report_to_json(str(report_path))
             self.write_line("")
-            self.write_line("Report saved to Samples/log_report.json")
+            self.write_line(f"Report saved to {report_path}")
 
             freq_fig = analyzer.create_frequency_figure()
             self.render_figure(freq_fig, self.freq_tab, "frequency")

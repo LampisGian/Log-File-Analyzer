@@ -1,18 +1,10 @@
 {
     "counts": {
-        "ERROR": 112,
-        "INFO": 92,
-        "WARNING": 96
+        "INFO": 2000
     },
-    "total_entries": 300,
-    "malformed_lines": 22,
-    "first_log": "2026-03-24 14:00:00 ERROR Network connection lost",
-    "last_log": "2026-03-24 19:14:56 ERROR Authentication failed",
-    "common_errors": {
-        "Authentication failed": 16,
-        "Network connection lost": 14,
-        "Database query failed": 12,
-        "Access denied for admin panel": 12,
-        "Failed to save user settings": 12
-    }
+    "total_entries": 2000,
+    "malformed_lines": 0,
+    "first_log": "2016-09-28 04:30:30 INFO [CBS] Loaded Servicing Stack v6.1.7601.23505 with Core: C:\\Windows\\winsxs\\amd64_microsoft-windows-servicingstack_31bf3856ad364e35_6.1.7601.23505_none_681aa442f6fed7f0\\cbscore.dll",
+    "last_log": "2016-09-29 02:04:40 INFO [CBS] Read out cached package applicability for package: Package_for_KB2928120~31bf3856ad364e35~amd64~~6.1.1.2, ApplicableState: 0, CurrentState:0",
+    "common_errors": {}
 }
