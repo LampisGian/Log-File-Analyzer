@@ -181,3 +181,84 @@ class LogAnalyzer:
         plt.tight_layout()
         plt.savefig(output_file, dpi=300)
         plt.show()
+
+
+    def create_frequency_figure(self):
+        if not self.counts:
+            self.analyze()
+
+        fig, ax = plt.subplots(figsize=(8, 4.5))
+
+        level_order = ["INFO", "WARNING", "ERROR"]
+        levels = [level for level in level_order if level in self.counts]
+        values = [self.counts[level] for level in levels]
+
+        colors = {
+            "INFO": "#4FC3F7",
+            "WARNING": "#FFB74D",
+            "ERROR": "#E57373"
+        }
+
+        bar_colors = [colors[level] for level in levels]
+        bars = ax.bar(levels, values, color=bar_colors, width=0.45)
+
+        ax.set_title("Log Frequency by Type", fontsize=15, fontweight="bold")
+        ax.set_xlabel("Log Level", fontsize=11)
+        ax.set_ylabel("Number of Entries", fontsize=11)
+        ax.grid(axis="y", linestyle="--", alpha=0.3)
+        ax.set_axisbelow(True)
+
+        for bar in bars:
+            height = bar.get_height()
+            ax.text(
+                bar.get_x() + bar.get_width() / 2,
+                height + 0.3,
+                str(height),
+                ha="center",
+                va="bottom",
+                fontsize=10
+            )
+
+        fig.tight_layout()
+        return fig
+
+    def create_timeline_figure(self):
+        if not self.log_entries:
+            return None
+
+        timeline_counts = Counter(entry.timestamp[:13] for entry in self.log_entries)
+
+        time_points = sorted(timeline_counts.keys())
+        values = [timeline_counts[t] for t in time_points]
+        x_positions = list(range(len(time_points)))
+
+        fig, ax = plt.subplots(figsize=(9, 4.5))
+
+        ax.plot(
+            x_positions,
+            values,
+            marker="o",
+            linestyle="-",
+            linewidth=2,
+            markersize=4,
+            color="#9575CD"
+        )
+
+        ax.fill_between(x_positions, values, alpha=0.18, color="#9575CD")
+
+        ax.set_title("Log Timeline Frequency", fontsize=15, fontweight="bold")
+        ax.set_xlabel("Date and Hour", fontsize=11)
+        ax.set_ylabel("Number of Entries", fontsize=11)
+
+        step = max(1, len(time_points) // 8)
+        ax.set_xticks(x_positions[::step])
+        ax.set_xticklabels(
+            [time_points[i] for i in range(0, len(time_points), step)],
+            rotation=30,
+            ha="right",
+            fontsize=9
+        )
+
+        ax.grid(True, linestyle="--", alpha=0.25)
+        fig.tight_layout()
+        return fig

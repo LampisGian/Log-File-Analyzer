@@ -205,9 +205,4 @@ class LogParser:
                 if entry:
                     self.entries.append(entry)
 
-        if self.malformed_lines and not self.entries:
-            print("\nWarning: unsupported log format detected.")
-        elif self.malformed_lines:
-            print(f"\nWarning: {len(self.malformed_lines)} line(s) could not be parsed.")
-
         return self.entries

@@ -1,8 +1,10 @@
 import os
 import tkinter as tk
-from tkinter import ttk, messagebox, scrolledtext
-from PIL import Image, ImageTk
+from tkinter import ttk, filedialog, messagebox
+from tkinter.scrolledtext import ScrolledText
 
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from tkinterdnd2 import DND_FILES, TkinterDnD
 
 from log_parser import LogParser
@@ -13,83 +15,343 @@ class LogAnalyzerGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Log File Analyzer")
-        self.root.geometry("1200x800")
+        self.root.geometry("1380x840")
+        self.root.minsize(1100, 700)
 
         self.file_path = None
-        self.frequency_image = None
-        self.timeline_image = None
+        self.frequency_canvas_widget = None
+        self.timeline_canvas_widget = None
 
         os.makedirs("Samples", exist_ok=True)
 
+        self.configure_styles()
         self.build_ui()
+        self.root.protocol("WM_DELETE_WINDOW", self.on_close)
+
+    def configure_styles(self):
+        self.colors = {
+            "bg": "#0B1020",
+            "surface": "#121A2B",
+            "text": "#E6EEF8",
+            "muted": "#94A3B8",
+            "accent": "#7C3AED",
+            "accent_hover": "#6D28D9",
+            "entry_bg": "#F8FAFC",
+            "entry_fg": "#111827",
+            "results_bg": "#0F172A",
+            "results_fg": "#E2E8F0",
+            "drop_bg": "#EDE9FE",
+            "drop_fg": "#4C1D95",
+            "success_bg": "#DCFCE7",
+            "success_fg": "#166534",
+            "warning_bg": "#FEF3C7",
+            "warning_fg": "#92400E",
+            "error_bg": "#FEE2E2",
+            "error_fg": "#991B1B",
+            "info_bg": "#DBEAFE",
+            "info_fg": "#1D4ED8",
+            "chart_bg": "#F8FAFC",
+            "placeholder_fg": "#64748B"
+        }
+
+        style = ttk.Style()
+        style.theme_use("clam")
+
+        style.configure("App.TFrame", background=self.colors["bg"])
+
+        style.configure(
+            "Card.TLabelframe",
+            background=self.colors["surface"],
+            foreground=self.colors["text"],
+            borderwidth=0
+        )
+        style.configure(
+            "Card.TLabelframe.Label",
+            background=self.colors["surface"],
+            foreground=self.colors["text"],
+            font=("Arial", 11, "bold")
+        )
+
+        style.configure(
+            "TLabel",
+            background=self.colors["bg"],
+            foreground=self.colors["text"],
+            font=("Arial", 10)
+        )
+        style.configure(
+            "Header.TLabel",
+            background=self.colors["bg"],
+            foreground="#F8FAFC",
+            font=("Arial", 20, "bold")
+        )
+        style.configure(
+            "Sub.TLabel",
+            background=self.colors["bg"],
+            foreground=self.colors["muted"],
+            font=("Arial", 10)
+        )
+
+        style.configure(
+            "Primary.TButton",
+            background=self.colors["accent"],
+            foreground="white",
+            font=("Arial", 10, "bold"),
+            padding=10,
+            borderwidth=0
+        )
+        style.map(
+            "Primary.TButton",
+            background=[("active", self.colors["accent_hover"])]
+        )
+
+        style.configure(
+            "Secondary.TButton",
+            background="#334155",
+            foreground="white",
+            font=("Arial", 10, "bold"),
+            padding=10,
+            borderwidth=0
+        )
+        style.map(
+            "Secondary.TButton",
+            background=[("active", "#475569")]
+        )
+
+        style.configure(
+            "TNotebook",
+            background=self.colors["surface"],
+            borderwidth=0
+        )
+        style.configure(
+            "TNotebook.Tab",
+            background="#E5E7EB",
+            foreground="#111827",
+            padding=(14, 8),
+            font=("Arial", 10, "bold")
+        )
+        style.map(
+            "TNotebook.Tab",
+            background=[("selected", "#FFFFFF")],
+            foreground=[("selected", "#111827")]
+        )
 
     def build_ui(self):
-        main_frame = ttk.Frame(self.root, padding=10)
-        main_frame.pack(fill="both", expand=True)
+        self.root.configure(bg=self.colors["bg"])
 
-        top_frame = ttk.LabelFrame(main_frame, text="Log File Input", padding=10)
-        top_frame.pack(fill="x", pady=(0, 10))
+        main = ttk.Frame(self.root, style="App.TFrame", padding=14)
+        main.pack(fill="both", expand=True)
 
-        self.drop_label = tk.Label(
-            top_frame,
-            text="Drag and drop a .log file here",
-            relief="groove",
-            bd=2,
-            height=4,
-            bg="#f5f5f5",
-            font=("Arial", 12)
+        header = ttk.Frame(main, style="App.TFrame")
+        header.pack(fill="x", pady=(0, 10))
+
+        header.columnconfigure(0, weight=1)
+
+        title_wrap = ttk.Frame(header, style="App.TFrame")
+        title_wrap.grid(row=0, column=0, sticky="w")
+
+        ttk.Label(title_wrap, text="Log File Analyzer", style="Header.TLabel").pack(anchor="w")
+        ttk.Label(
+            title_wrap,
+            text="Analyze log files with search, date filters, report generation, and built-in charts.",
+            style="Sub.TLabel"
+        ).pack(anchor="w", pady=(2, 0))
+
+        self.status_badge = tk.Label(
+            header,
+            text="READY",
+            bg=self.colors["info_bg"],
+            fg=self.colors["info_fg"],
+            font=("Arial", 10, "bold"),
+            width=14,
+            height=2,
+            relief="flat",
+            bd=0
         )
-        self.drop_label.pack(fill="x", pady=(0, 10))
-        self.drop_label.drop_target_register(DND_FILES)
-        self.drop_label.dnd_bind("<<Drop>>", self.handle_drop)
+        self.status_badge.grid(row=0, column=1, sticky="ne", padx=(12, 0))
 
-        self.file_label = ttk.Label(top_frame, text="No file selected")
-        self.file_label.pack(anchor="w")
+        top = ttk.LabelFrame(main, text="File Input", style="Card.TLabelframe", padding=12)
+        top.pack(fill="x", pady=(0, 10))
 
-        filter_frame = ttk.LabelFrame(main_frame, text="Filters / Search", padding=10)
-        filter_frame.pack(fill="x", pady=(0, 10))
+        self.drop_area = tk.Label(
+            top,
+            text="Drag and drop a .log file here",
+            bg=self.colors["drop_bg"],
+            fg=self.colors["drop_fg"],
+            relief="flat",
+            bd=0,
+            height=4,
+            font=("Arial", 12, "bold"),
+            padx=10,
+            pady=10
+        )
+        self.drop_area.pack(fill="x", pady=(0, 10))
+        self.drop_area.drop_target_register(DND_FILES)
+        self.drop_area.dnd_bind("<<Drop>>", self.handle_drop)
 
-        ttk.Label(filter_frame, text="Keyword:").grid(row=0, column=0, sticky="w", padx=5, pady=5)
-        self.keyword_entry = ttk.Entry(filter_frame, width=30)
-        self.keyword_entry.grid(row=0, column=1, padx=5, pady=5)
+        file_row = tk.Frame(top, bg=self.colors["surface"])
+        file_row.pack(fill="x")
 
-        ttk.Label(filter_frame, text="Start Date (YYYY-MM-DD):").grid(row=0, column=2, sticky="w", padx=5, pady=5)
-        self.start_date_entry = ttk.Entry(filter_frame, width=20)
-        self.start_date_entry.grid(row=0, column=3, padx=5, pady=5)
+        self.file_var = tk.StringVar(value="No file selected")
+        self.file_entry = tk.Entry(
+            file_row,
+            textvariable=self.file_var,
+            bg=self.colors["entry_bg"],
+            fg=self.colors["entry_fg"],
+            relief="flat",
+            font=("Arial", 11),
+            insertbackground=self.colors["entry_fg"],
+            bd=8
+        )
+        self.file_entry.pack(side="left", fill="x", expand=True, padx=(0, 8))
 
-        ttk.Label(filter_frame, text="End Date (YYYY-MM-DD):").grid(row=0, column=4, sticky="w", padx=5, pady=5)
-        self.end_date_entry = ttk.Entry(filter_frame, width=20)
-        self.end_date_entry.grid(row=0, column=5, padx=5, pady=5)
+        browse_btn = ttk.Button(
+            file_row,
+            text="Browse",
+            style="Primary.TButton",
+            command=self.browse_file
+        )
+        browse_btn.pack(side="left")
 
-        self.analyze_button = ttk.Button(filter_frame, text="Analyze Log File", command=self.analyze_file)
-        self.analyze_button.grid(row=0, column=6, padx=10, pady=5)
+        filters = ttk.LabelFrame(main, text="Filters and Search", style="Card.TLabelframe", padding=12)
+        filters.pack(fill="x", pady=(0, 10))
 
-        content_frame = ttk.Frame(main_frame)
-        content_frame.pack(fill="both", expand=True)
+        filters.columnconfigure(1, weight=1)
+        filters.columnconfigure(3, weight=1)
+        filters.columnconfigure(5, weight=1)
 
-        left_frame = ttk.LabelFrame(content_frame, text="Analysis Results", padding=10)
-        left_frame.pack(side="left", fill="both", expand=True, padx=(0, 5))
+        ttk.Label(filters, text="Keyword").grid(row=0, column=0, sticky="w", padx=6, pady=6)
+        self.keyword_entry = tk.Entry(
+            filters,
+            bg=self.colors["entry_bg"],
+            fg=self.colors["entry_fg"],
+            relief="flat",
+            font=("Arial", 11),
+            insertbackground=self.colors["entry_fg"],
+            bd=8
+        )
+        self.keyword_entry.grid(row=0, column=1, sticky="ew", padx=6, pady=6)
 
-        self.output_box = scrolledtext.ScrolledText(left_frame, wrap=tk.WORD, font=("Courier New", 10))
-        self.output_box.pack(fill="both", expand=True)
+        ttk.Label(filters, text="Start Date (YYYY-MM-DD)").grid(row=0, column=2, sticky="w", padx=6, pady=6)
+        self.start_entry = tk.Entry(
+            filters,
+            bg=self.colors["entry_bg"],
+            fg=self.colors["entry_fg"],
+            relief="flat",
+            font=("Arial", 11),
+            insertbackground=self.colors["entry_fg"],
+            bd=8
+        )
+        self.start_entry.grid(row=0, column=3, sticky="ew", padx=6, pady=6)
 
-        right_frame = ttk.LabelFrame(content_frame, text="Visualizations", padding=10)
-        right_frame.pack(side="right", fill="both", expand=True, padx=(5, 0))
+        ttk.Label(filters, text="End Date (YYYY-MM-DD)").grid(row=0, column=4, sticky="w", padx=6, pady=6)
+        self.end_entry = tk.Entry(
+            filters,
+            bg=self.colors["entry_bg"],
+            fg=self.colors["entry_fg"],
+            relief="flat",
+            font=("Arial", 11),
+            insertbackground=self.colors["entry_fg"],
+            bd=8
+        )
+        self.end_entry.grid(row=0, column=5, sticky="ew", padx=6, pady=6)
 
-        self.chart_notebook = ttk.Notebook(right_frame)
-        self.chart_notebook.pack(fill="both", expand=True)
+        action_row = tk.Frame(filters, bg=self.colors["surface"])
+        action_row.grid(row=1, column=0, columnspan=6, sticky="ew", padx=6, pady=(8, 0))
 
-        self.frequency_tab = ttk.Frame(self.chart_notebook)
-        self.timeline_tab = ttk.Frame(self.chart_notebook)
+        analyze_btn = ttk.Button(
+            action_row,
+            text="Analyze File",
+            style="Primary.TButton",
+            command=self.analyze_file
+        )
+        analyze_btn.pack(side="left")
 
-        self.chart_notebook.add(self.frequency_tab, text="Bar Chart")
-        self.chart_notebook.add(self.timeline_tab, text="Timeline")
+        clear_btn = ttk.Button(
+            action_row,
+            text="Clear",
+            style="Secondary.TButton",
+            command=self.clear_fields
+        )
+        clear_btn.pack(side="left", padx=(8, 0))
 
-        self.frequency_canvas = tk.Label(self.frequency_tab, text="Bar chart will appear here")
-        self.frequency_canvas.pack(fill="both", expand=True)
+        content = ttk.Frame(main, style="App.TFrame")
+        content.pack(fill="both", expand=True)
 
-        self.timeline_canvas = tk.Label(self.timeline_tab, text="Timeline chart will appear here")
-        self.timeline_canvas.pack(fill="both", expand=True)
+        content.columnconfigure(0, weight=2)
+        content.columnconfigure(1, weight=1)
+        content.rowconfigure(0, weight=1)
+
+        left = ttk.LabelFrame(content, text="Results", style="Card.TLabelframe", padding=10)
+        left.grid(row=0, column=0, sticky="nsew", padx=(0, 6))
+
+        right = ttk.LabelFrame(content, text="Charts", style="Card.TLabelframe", padding=10)
+        right.grid(row=0, column=1, sticky="nsew", padx=(6, 0))
+
+        left.rowconfigure(0, weight=1)
+        left.columnconfigure(0, weight=1)
+
+        self.output_box = ScrolledText(
+            left,
+            wrap="word",
+            font=("Consolas", 10),
+            bg=self.colors["results_bg"],
+            fg=self.colors["results_fg"],
+            insertbackground="white",
+            relief="flat",
+            padx=12,
+            pady=12
+        )
+        self.output_box.grid(row=0, column=0, sticky="nsew")
+
+        self.notebook = ttk.Notebook(right)
+        self.notebook.pack(fill="both", expand=True)
+
+        self.freq_tab = tk.Frame(self.notebook, bg=self.colors["chart_bg"])
+        self.time_tab = tk.Frame(self.notebook, bg=self.colors["chart_bg"])
+
+        self.notebook.add(self.freq_tab, text="Bar Chart")
+        self.notebook.add(self.time_tab, text="Timeline")
+
+        for tab in (self.freq_tab, self.time_tab):
+            tab.rowconfigure(0, weight=1)
+            tab.columnconfigure(0, weight=1)
+
+        self.freq_placeholder = tk.Label(
+            self.freq_tab,
+            text="Bar chart will appear here",
+            bg=self.colors["chart_bg"],
+            fg=self.colors["placeholder_fg"],
+            font=("Arial", 11)
+        )
+        self.freq_placeholder.grid(row=0, column=0)
+
+        self.time_placeholder = tk.Label(
+            self.time_tab,
+            text="Timeline chart will appear here",
+            bg=self.colors["chart_bg"],
+            fg=self.colors["placeholder_fg"],
+            font=("Arial", 11)
+        )
+        self.time_placeholder.grid(row=0, column=0)
+
+    def set_status(self, message, status_type="info"):
+        colors = {
+            "success": (self.colors["success_bg"], self.colors["success_fg"], "SUCCESS"),
+            "warning": (self.colors["warning_bg"], self.colors["warning_fg"], "WARNING"),
+            "error": (self.colors["error_bg"], self.colors["error_fg"], "ERROR"),
+            "info": (self.colors["info_bg"], self.colors["info_fg"], "READY")
+        }
+
+        bg, fg, label = colors.get(status_type, colors["info"])
+        self.status_badge.config(text=label, bg=bg, fg=fg)
+
+    def browse_file(self):
+        file_path = filedialog.askopenfilename(
+            title="Select a log file",
+            filetypes=[("Log files", "*.log"), ("All files", "*.*")]
+        )
+        if file_path:
+            self.set_file(file_path)
 
     def handle_drop(self, event):
         file_path = event.data.strip()
@@ -98,47 +360,114 @@ class LogAnalyzerGUI:
             file_path = file_path[1:-1]
 
         if not file_path.lower().endswith(".log"):
-            messagebox.showerror("Invalid File", "Please drop a .log file.")
+            self.set_status("Invalid file. Please choose a .log file.", "error")
+            messagebox.showerror("Invalid File", "Please choose a .log file.")
             return
 
+        self.set_file(file_path)
+
+    def set_file(self, file_path):
         self.file_path = file_path
-        self.file_label.config(text=f"Selected file: {self.file_path}")
-        self.drop_label.config(text="File loaded successfully")
+        self.file_var.set(file_path)
+        self.drop_area.config(text="File loaded successfully", bg=self.colors["success_bg"], fg=self.colors["success_fg"])
+        self.set_status("Log file selected successfully.", "success")
+
+    def clear_fields(self):
+        self.keyword_entry.delete(0, tk.END)
+        self.start_entry.delete(0, tk.END)
+        self.end_entry.delete(0, tk.END)
+        self.output_box.delete("1.0", tk.END)
+        self.clear_chart_area()
+        self.set_status("Fields and charts cleared.", "info")
+
+    def clear_chart_area(self):
+        for tab in (self.freq_tab, self.time_tab):
+            for widget in tab.winfo_children():
+                widget.destroy()
+
+        self.freq_placeholder = tk.Label(
+            self.freq_tab,
+            text="Bar chart will appear here",
+            bg=self.colors["chart_bg"],
+            fg=self.colors["placeholder_fg"],
+            font=("Arial", 11)
+        )
+        self.freq_placeholder.grid(row=0, column=0)
+
+        self.time_placeholder = tk.Label(
+            self.time_tab,
+            text="Timeline chart will appear here",
+            bg=self.colors["chart_bg"],
+            fg=self.colors["placeholder_fg"],
+            font=("Arial", 11)
+        )
+        self.time_placeholder.grid(row=0, column=0)
+
+        self.frequency_canvas_widget = None
+        self.timeline_canvas_widget = None
+        plt.close("all")
+
+    def write_line(self, text=""):
+        self.output_box.insert(tk.END, text + "\n")
+        self.output_box.see(tk.END)
+
+    def render_figure(self, fig, parent, chart_type):
+        canvas = FigureCanvasTkAgg(fig, master=parent)
+        widget = canvas.get_tk_widget()
+        widget.grid(row=0, column=0, sticky="nsew")
+        canvas.draw()
+
+        if chart_type == "frequency":
+            self.frequency_canvas_widget = canvas
+        else:
+            self.timeline_canvas_widget = canvas
 
     def analyze_file(self):
         if not self.file_path:
-            messagebox.showerror("No File", "Please drag and drop a .log file first.")
+            self.set_status("Please drag a log file or use Browse first.", "error")
+            messagebox.showerror("No File", "Please drag a log file or use Browse.")
             return
 
         keyword = self.keyword_entry.get().strip() or None
-        start_date = self.start_date_entry.get().strip() or None
-        end_date = self.end_date_entry.get().strip() or None
+        start_date = self.start_entry.get().strip() or None
+        end_date = self.end_entry.get().strip() or None
 
         try:
             parser = LogParser(self.file_path)
             entries = parser.parse()
 
             self.output_box.delete("1.0", tk.END)
+            self.clear_chart_area()
 
-            self.output_box.insert(tk.END, "=" * 50 + "\n")
-            self.output_box.insert(tk.END, "LOG FILE ANALYSIS REPORT\n")
-            self.output_box.insert(tk.END, "=" * 50 + "\n")
-            self.output_box.insert(tk.END, f"File: {self.file_path}\n")
-            self.output_box.insert(tk.END, f"Valid entries: {len(entries)}\n")
-            self.output_box.insert(tk.END, f"Malformed lines: {len(parser.malformed_lines)}\n")
+            self.write_line("=" * 55)
+            self.write_line("LOG FILE ANALYSIS REPORT")
+            self.write_line("=" * 55)
+            self.write_line(f"File: {self.file_path}")
+            self.write_line(f"Valid entries: {len(entries)}")
+            self.write_line(f"Malformed lines: {len(parser.malformed_lines)}")
 
             if not entries:
-                self.output_box.insert(tk.END, "\nNo valid log entries were found.\n")
-                self.output_box.insert(tk.END, "Reason: Unsupported log format or fully malformed file.\n")
-                self.clear_images()
+                self.set_status("Analysis failed: no valid log entries were found.", "error")
+                self.write_line("")
+                self.write_line("No valid log entries were found.")
+                self.write_line("Reason: Unsupported log format or fully malformed file.")
                 return
 
             analyzer = LogAnalyzer(entries, len(parser.malformed_lines))
             counts = analyzer.analyze()
 
-            self.output_box.insert(tk.END, "\nLog counts by type:\n")
+            if parser.malformed_lines and entries:
+                self.set_status(
+                    f"Analysis completed with warnings: {len(parser.malformed_lines)} line(s) could not be parsed.",
+                    "warning"
+                )
+            else:
+                self.set_status("Analysis completed successfully.", "success")
+
+            self.write_line("")
+            self.write_line("Log counts by type:")
             for level in ["INFO", "WARNING", "ERROR"]:
-                self.output_box.insert(tk.END, f"  {level}: {counts.get(level, 0)}\n")
+                self.write_line(f"  {level}: {counts.get(level, 0)}")
 
             results = analyzer.search(
                 keyword=keyword,
@@ -146,70 +475,60 @@ class LogAnalyzerGUI:
                 end_date=end_date
             )
 
-            self.output_box.insert(tk.END, "\nSearch / Filter Results:\n")
+            self.write_line("")
+            self.write_line("Search / Filter Results:")
             if results:
-                self.output_box.insert(tk.END, f"  Matching entries: {len(results)}\n")
-                for entry in results:
-                    self.output_box.insert(tk.END, f"  {entry}\n")
+                self.write_line(f"  Matching entries: {len(results)}")
+                show_limit = 100
+                for entry in results[:show_limit]:
+                    self.write_line(f"  {entry}")
+                if len(results) > show_limit:
+                    self.write_line(f"  ... and {len(results) - show_limit} more entries")
             else:
-                self.output_box.insert(tk.END, "  No matching log entries found.\n")
+                self.write_line("  No matching log entries found.")
 
             report = analyzer.generate_report_data()
 
-            self.output_box.insert(tk.END, "\nSummary Report:\n")
-            self.output_box.insert(tk.END, f"  Total entries: {report['total_entries']}\n")
-            self.output_box.insert(tk.END, f"  Malformed lines: {report['malformed_lines']}\n")
-            self.output_box.insert(tk.END, f"  First log: {report['first_log']}\n")
-            self.output_box.insert(tk.END, f"  Last log: {report['last_log']}\n")
-            self.output_box.insert(tk.END, "  Common errors:\n")
+            self.write_line("")
+            self.write_line("Summary Report:")
+            self.write_line(f"  Total entries: {report['total_entries']}")
+            self.write_line(f"  Malformed lines: {report['malformed_lines']}")
+            self.write_line(f"  First log: {report['first_log']}")
+            self.write_line(f"  Last log: {report['last_log']}")
+            self.write_line("  Common errors:")
 
             if report["common_errors"]:
                 for message, count in report["common_errors"].items():
-                    self.output_box.insert(tk.END, f"    - {message}: {count}\n")
+                    self.write_line(f"    - {message}: {count}")
             else:
-                self.output_box.insert(tk.END, "    No error logs found.\n")
+                self.write_line("    No error logs found.")
 
-            report_path = "Samples/log_report.json"
-            freq_path = "Samples/log_frequency.png"
-            timeline_path = "Samples/log_timeline.png"
+            analyzer.save_report_to_json("Samples/log_report.json")
+            self.write_line("")
+            self.write_line("Report saved to Samples/log_report.json")
 
-            analyzer.save_report_to_json(report_path)
-            analyzer.visualize_log_frequency(freq_path)
-            analyzer.visualize_timeline(timeline_path)
+            freq_fig = analyzer.create_frequency_figure()
+            self.render_figure(freq_fig, self.freq_tab, "frequency")
 
-            self.output_box.insert(tk.END, f"\nReport saved to {report_path}\n")
-            self.output_box.insert(tk.END, f"Bar chart saved to {freq_path}\n")
-            self.output_box.insert(tk.END, f"Timeline chart saved to {timeline_path}\n")
-            self.output_box.insert(tk.END, "=" * 50 + "\n")
+            time_fig = analyzer.create_timeline_figure()
+            if time_fig is not None:
+                self.render_figure(time_fig, self.time_tab, "timeline")
+            else:
+                self.write_line("No timeline chart available.")
 
-            self.display_image(freq_path, self.frequency_canvas, "frequency")
-            self.display_image(timeline_path, self.timeline_canvas, "timeline")
+            self.write_line("=" * 55)
 
         except Exception as e:
+            self.set_status(f"Analysis failed: {str(e)}", "error")
             messagebox.showerror("Error", str(e))
 
-    def display_image(self, image_path, target_label, image_type):
-        if not os.path.exists(image_path):
-            target_label.config(text=f"Image not found: {image_path}", image="")
-            return
-
-        image = Image.open(image_path)
-        image.thumbnail((520, 320))
-        photo = ImageTk.PhotoImage(image)
-
-        target_label.config(image=photo, text="")
-        target_label.image = photo
-
-        if image_type == "frequency":
-            self.frequency_image = photo
-        else:
-            self.timeline_image = photo
-
-    def clear_images(self):
-        self.frequency_canvas.config(image="", text="Bar chart will appear here")
-        self.timeline_canvas.config(image="", text="Timeline chart will appear here")
-        self.frequency_canvas.image = None
-        self.timeline_canvas.image = None
+    def on_close(self):
+        try:
+            plt.close("all")
+            self.root.quit()
+            self.root.destroy()
+        except Exception:
+            pass
 
 
 if __name__ == "__main__":
