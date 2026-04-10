@@ -40,15 +40,24 @@ python3 main.py --file path/to/logfile.log
 ```python main.py --file path/to/logfile.log --keyword error --start-date 2026-03-24 --end-date 2026-03-24 ```
 
 
-## Tasks
-- Understand `.log` file formats. Use sample logs. Plan regex for extracting levels and timestamps.
-- Implement log parser with support for `INFO`, `ERROR`, `WARNING`.
-- Count and display logs per type. Save results to JSON.
-- Add search/filter by keyword and date.
-- Generate summary report (total entries, first/last log, common errors).
-- Visualize log frequency using matplotlib (bar chart or timeline).
-- Add CLI arguments for automation, GUI for log analysis.
-- Test with large logs, handle malformed lines.
-- Final testing. Create README with instructions and screenshots. Submit as Git repo.
+## User Interface Overview
 
-## Estimated time to work 2 weeks
+![Screenshot](Screenshots/main_screen.png)
+
+The application provides a graphical user interface for analyzing `.log` files in a simple and user-friendly way. The main window is divided into clear sections so that the user can load a log file, apply optional filters, view the analysis results, and inspect the generated charts in an organized layout.
+
+At the top of the interface, the user can load a `.log` file either through drag and drop or by using the **Browse** button. After selecting a file, the interface updates its status indicator to show whether the application is ready, successful, or encountered a warning or error.
+
+![Screenshot](Screenshots/file_loaded.png)
+
+The filter section allows the user to search log entries by keyword and optionally define a start date and end date in `YYYY-MM-DD` format. The **Analyze File** button starts the analysis, while the **Clear** button resets the fields and displayed results.
+
+![Screenshot](Screenshots/results.png)
+
+The left side of the window contains the results panel. There, the application displays the selected file path, the total number of valid entries, malformed lines, log counts by type, filtered search results, and the summary report. This gives the user a complete textual overview of the analyzed file.
+
+The right side of the interface contains the visualization area. It uses tabs to switch between a bar chart showing the frequency of log levels (`INFO`, `WARNING`, `ERROR`) and a timeline chart showing how log activity changes over time. These charts are embedded directly inside the application window.
+
+Overall, the GUI combines file loading, filtering, reporting, and visualization in one environment, making log analysis more practical and accessible for the user.
+
+![Screenshot](Screenshots/Keywords_Search.png)
