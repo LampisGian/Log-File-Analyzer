@@ -42,7 +42,7 @@ python3 main.py --file path/to/logfile.log
 
 ## User Interface Overview
 
-![Screenshot](Screenshots/main_screen.png)
+![Screenshot](Screenshots/Main_Screen.png)
 
 The application provides a graphical user interface for analyzing `.log` files in a simple and user-friendly way. The main window is divided into clear sections so that the user can load a log file, apply optional filters, view the analysis results, and inspect the generated charts in an organized layout.
 
